@@ -16,4 +16,8 @@ const clearToken = () => {
   localStorage.removeItem(TOKEN_KEY);
 };
 
-export { isLogin, getToken, setToken, clearToken };
+const getAuthorization = () => {
+  return 'Bearer '.concat(getToken() || '');
+};
+
+export { isLogin, getToken, setToken, clearToken, getAuthorization };

@@ -35,10 +35,6 @@ export function queryLatestActivity() {
   return axios.post<LatestActivity[]>('/api/user/latest-activity');
 }
 
-export function saveUserInfo() {
-  return axios.post('/api/user/save-info');
-}
-
 export interface BasicInfoModel {
   email: string;
   nickname: string;
@@ -46,6 +42,10 @@ export interface BasicInfoModel {
   area: string;
   address: string;
   profile: string;
+}
+
+export function saveUserInfo(info: BasicInfoModel) {
+  return axios.post('/api/user/info', info);
 }
 
 export interface EnterpriseCertificationModel {
@@ -85,4 +85,15 @@ export function userUploadApi(
 ) {
   // const controller = new AbortController();
   return axios.post('/api/user/upload', data, config);
+}
+
+export function userUploadAvatarApi(
+  data: FormData,
+  config: {
+    controller: AbortController;
+    onUploadProgress?: (progressEvent: any) => void;
+  }
+) {
+  // const controller = new AbortController();
+  return axios.post('/api/user/avatar', data, config);
 }

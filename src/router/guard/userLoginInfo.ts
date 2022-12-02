@@ -31,6 +31,14 @@ export default function setupUserLoginInfoGuard(router: Router) {
         next();
         return;
       }
+      if (to.meta.roles?.find((role) => role === 'visitor')) {
+        next();
+        return;
+      }
+      // if (to.name === 'home' || to.name === 'Games') {
+      //   next();
+      //   return;
+      // }
       next({
         name: 'login',
         query: {

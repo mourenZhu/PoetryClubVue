@@ -13,8 +13,16 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: 'login',
+      redirect: 'home',
     },
+    // {
+    //   path: '/home',
+    //   name: 'home',
+    //   component: () => import('@/views/home/index.vue'),
+    //   meta: {
+    //     requiresAuth: false,
+    //   }
+    // },
     {
       path: '/login',
       name: 'login',

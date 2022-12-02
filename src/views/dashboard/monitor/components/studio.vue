@@ -15,7 +15,7 @@
               <img :src="userInfo.avatar" />
             </a-avatar>
             <a-typography-text>
-              {{ userInfo.name }} {{ $t('monitor.studioPreview.studio') }}
+              {{ userInfo.username }} {{ $t('monitor.studioPreview.studio') }}
             </a-typography-text>
           </a-space>
         </div>
@@ -37,9 +37,9 @@
   .studio {
     &-preview {
       display: block;
+      width: 100%;
       max-width: 600px;
       margin: 0 auto;
-      width: 100%;
     }
 
     &-bar {

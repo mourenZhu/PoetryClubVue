@@ -35,3 +35,9 @@ export interface GeneralChart {
   xAxis: string[];
   data: Array<{ name: string; value: number[] }>;
 }
+
+export interface BaseRes {
+  code: number;
+  data: any;
+  msg: string;
+}

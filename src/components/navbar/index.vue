@@ -138,7 +138,7 @@
           </a-button>
         </a-tooltip>
       </li>
-      <li>
+      <li v-if="isLogin()">
         <a-dropdown trigger="click">
           <a-avatar
             :size="32"
@@ -182,6 +182,12 @@
           </template>
         </a-dropdown>
       </li>
+      <li v-if="!isLogin()">
+        <a-button type="primary" @click="enterLogin">登录</a-button>
+      </li>
+      <li v-if="!isLogin()">
+        <a-button type="outline">注册</a-button>
+      </li>
     </ul>
   </div>
 </template>
@@ -194,10 +200,13 @@
   import { LOCALE_OPTIONS } from '@/locale';
   import useLocale from '@/hooks/locale';
   import useUser from '@/hooks/user';
+  import { isLogin } from '@/utils/auth';
+  import { useRouter } from 'vue-router';
   import MessageBox from '../message-box/index.vue';
 
   const appStore = useAppStore();
   const userStore = useUserStore();
+  const router = useRouter();
   const { logout } = useUser();
   const { changeLocale } = useLocale();
   const { isFullscreen, toggle: toggleFullScreen } = useFullscreen();
@@ -219,6 +228,9 @@
       appStore.toggleTheme(dark);
     },
   });
+  const enterLogin = () => {
+    router.push({ name: 'login' });
+  };
   const toggleTheme = useToggle(isDark);
   const handleToggleTheme = () => {
     toggleTheme();
@@ -273,9 +285,11 @@
     display: flex;
     padding-right: 20px;
     list-style: none;
+
     :deep(.locale-select) {
       border-radius: 20px;
     }
+
     li {
       display: flex;
       align-items: center;
@@ -286,16 +300,19 @@
       color: var(--color-text-1);
       text-decoration: none;
     }
+
     .nav-btn {
-      border-color: rgb(var(--gray-2));
       color: rgb(var(--gray-8));
       font-size: 16px;
+      border-color: rgb(var(--gray-2));
     }
+
     .trigger-btn,
     .ref-btn {
       position: absolute;
       bottom: 14px;
     }
+
     .trigger-btn {
       margin-left: 14px;
     }

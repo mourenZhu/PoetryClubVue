@@ -2,11 +2,15 @@
   <a-card :bordered="false">
     <a-space :size="54">
       <a-upload
-        :custom-request="customRequest"
+        action="/api/user/avatar"
         list-type="picture-card"
+        accept="image/png, image/jpeg"
         :file-list="fileList"
         :show-upload-button="true"
         :show-file-list="false"
+        :headers="{
+          Authorization: getAuthorization(),
+        }"
         @change="uploadChange"
       >
         <template #upload-button>
@@ -14,7 +18,11 @@
             <template #trigger-icon>
               <icon-camera />
             </template>
-            <img v-if="fileList.length" :src="fileList[0].url" />
+            <img
+              v-if="fileList.length"
+              :src="fileList[0].url"
+              style="object-fit: cover"
+            />
           </a-avatar>
         </template>
       </a-upload>
@@ -57,7 +65,8 @@
     RequestOption,
   } from '@arco-design/web-vue/es/upload/interfaces';
   import { useUserStore } from '@/store';
-  import { userUploadApi } from '@/api/user-center';
+  import { userUploadAvatarApi } from '@/api/user-center';
+  import { getAuthorization } from '@/utils/auth';
   import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
 
   const userStore = useUserStore();
@@ -69,7 +78,7 @@
   const renderData = [
     {
       label: 'userSetting.label.name',
-      value: userStore.name,
+      value: userStore.username,
     },
     {
       label: 'userSetting.label.certification',
@@ -119,7 +128,7 @@
         // https://github.com/axios/axios/issues/1630
         // https://github.com/nuysoft/Mock/issues/127
 
-        const res = await userUploadApi(formData, {
+        const res = await userUploadAvatarApi(formData, {
           controller,
           onUploadProgress,
         });
@@ -141,11 +150,13 @@
     padding: 14px 0 4px 4px;
     border-radius: 4px;
   }
+
   :deep(.arco-avatar-trigger-icon-button) {
     width: 32px;
     height: 32px;
     line-height: 32px;
     background-color: #e8f3ff;
+
     .arco-icon-camera {
       margin-top: 8px;
       color: rgb(var(--arcoblue-6));

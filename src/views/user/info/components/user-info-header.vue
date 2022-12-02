@@ -8,7 +8,7 @@
         <img :src="userInfo.avatar" />
       </a-avatar>
       <a-typography-title :heading="6" style="margin: 0">
-        {{ userInfo.name }}
+        {{ userInfo.nickname }}
       </a-typography-title>
       <div class="user-msg">
         <a-space :size="18">
@@ -57,10 +57,12 @@
         vertical-align: -1px;
       }
     }
+
     .user-msg {
       .arco-icon {
         color: rgb(var(--gray-10));
       }
+
       .arco-typography {
         margin-left: 6px;
       }
