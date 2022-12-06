@@ -5,7 +5,7 @@
     />
     <a-card class="general-card">
       <div class="ffo-room-layout">
-        <a-layout style="height: 600px">
+        <a-layout style="height: 650px">
           <a-layout-header>
             <div class="room-header">
               <room-info></room-info>
@@ -13,27 +13,28 @@
                 v-if="isHomeowner && isWaiting"
                 type="primary"
                 @click="startFfoGame"
-                >开始游戏</a-button
-              >
+                >开始游戏
+              </a-button>
               <a-button type="outline" @click="clickLeaveGameRoom"
-                >离开房间</a-button
-              >
+                >离开房间
+              </a-button>
             </div>
           </a-layout-header>
           <a-layout>
             <a-layout-content>
               <!--              <game-alert></game-alert>-->
               <a-card
+                :style="{ width: '100%', height: '400px', marginBottom: '3px' }"
                 hoverable
-                :style="{ width: '100%', height: '300px', marginBottom: '3px' }"
               >
                 <span v-if="isWaiting"> 游戏未开始，等待房主开启游戏 </span>
                 <!--                游戏主体-->
                 <ffo-game-body v-show="!isWaiting"></ffo-game-body>
+                <player-ranking-list v-show="isWaiting"></player-ranking-list>
               </a-card>
               <player-list></player-list>
             </a-layout-content>
-            <a-layout-sider :width="300">
+            <a-layout-sider :width="350">
               <ChatRoom :room-id="roomId"></ChatRoom>
             </a-layout-sider>
           </a-layout>
@@ -52,8 +53,8 @@
   import { useFfoRoomStore, useStompStore, useUserStore } from '@/store';
   import { IFrame } from '@stomp/stompjs/src/i-frame';
   import RoomInfo from '@/views/games/flying-flower-order/game-room/components/room-info.vue';
-  import GameAlert from '@/views/games/flying-flower-order/game-room/components/game-alert.vue';
   import FfoGameBody from '@/views/games/flying-flower-order/game-room/components/ffo-game-body.vue';
+  import PlayerRankingList from '@/views/games/flying-flower-order/game-room/components/player-ranking-list.vue';
 
   const route = useRoute();
   const router = useRouter();

@@ -101,7 +101,7 @@
 
 <style scoped>
   .chatroom {
-    width: 400px;
+    width: 350px;
   }
 
   .msg-list-content {
@@ -126,7 +126,7 @@
 
   .nickname-content > .text-content {
     display: flex;
-    width: 300px;
+    width: 240px;
     background-color: #e5e5e5;
     border-radius: 5px;
   }

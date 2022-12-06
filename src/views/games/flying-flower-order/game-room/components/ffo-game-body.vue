@@ -1,20 +1,19 @@
 <template>
   <div class="ffo-game-body">
     <div class="ffo-content-list">
-      内容
       <div
-        v-for="item in ffoGameStore.ffoGame.userSentences"
+        v-for="item in sentenceList"
         :key="item.createTime"
         class="ffo-content"
       >
         <a-avatar>
-          <img alt="avatar" :src="item.user.avatar" />
+          <img :src="item.user.avatar" alt="avatar" />
         </a-avatar>
         <div class="ffo-name-and-sentence">
           <div
             >{{ item.user.nickname }} : {{ item.user.username }} -
-            {{ item.createTime }}</div
-          >
+            {{ item.createTime }}
+          </div>
           <div class="ffo-sentence-text">
             <a-typography-paragraph
               style="text-align: justify; word-break: break-word"
@@ -27,13 +26,13 @@
     </div>
     <div class="ffo-content-right">
       <div>
-        <p>下一个回答用户: {{ nextUser.nextUser }}</p>
+        <p>下一个回答用户: {{ nextUser.nickname }}</p>
         <p
           >剩余时间:
           <a-countdown :value="timeLeft"></a-countdown>
         </p>
       </div>
-      <div>
+      <div v-show="nextUser.username === userStore.username">
         <a-space>
           <a-textarea v-model="sentenceText" :max-length="255"></a-textarea>
           <a-button type="primary" @click="sendSentence">发送飞花令</a-button>
@@ -47,8 +46,8 @@
   import { useFfoGameStore, useStompStore, useUserStore } from '@/store';
   import { computed, reactive, ref, watch } from 'vue';
   import { IFrame } from '@stomp/stompjs/src/i-frame';
-  import { FfoNextOutputVO } from '@/types/ffo-types';
   import { UserDto } from '@/types/user-dto';
+  import { FfoGameSentenceDTO } from '@/store/modules/ffo-game/types';
 
   const userStore = useUserStore();
   const stompStore = useStompStore();
@@ -59,27 +58,28 @@
     ffoGameStore.update(JSON.parse(message.body));
   };
 
+  const sentenceList = computed(() => {
+    return [...ffoGameStore.ffoGame.userSentences].reverse();
+  });
+
   const receiveSentence = (message: IFrame) => {
     console.log('句子', message.body);
     ffoGameStore.addSentence(JSON.parse(message.body));
   };
-  const nextUser: FfoNextOutputVO = reactive<FfoNextOutputVO>({
-    nextUser: {} as UserDto,
-    nextEndTime: '',
-  });
+  const nextUser: UserDto = reactive<UserDto>({} as UserDto);
+  const nextEndTime = ref<string>('');
+
   const updateNext = (message: IFrame) => {
     console.log('下一个回答者', message.body);
-    Object.assign(nextUser, JSON.parse(message.body));
+    Object.assign(nextUser, JSON.parse(message.body).nextUser);
+    nextEndTime.value = JSON.parse(message.body).nextEndTime;
   };
 
   const timeLeft = computed(() => {
-    return Date.parse(nextUser.nextEndTime);
+    const num = Date.parse(nextEndTime.value);
+    console.log('回答剩余时间', num);
+    return num;
   });
-
-  const ffoGameOver = (message: IFrame) => {
-    console.log('游戏结束', message.body);
-    // ffoGameStore.addSentence(JSON.parse(message.body));
-  };
 
   watch(
     () => stompStore.connected,
@@ -103,12 +103,6 @@
             `/user/${userStore.userInfo.username}/game/ffo/next`,
             updateNext
           );
-        stompStore
-          .getClient()
-          .subscribe(
-            `/user/${userStore.userInfo.username}/game/ffo/end`,
-            ffoGameOver
-          );
       }
     }
   );
@@ -122,6 +116,7 @@
         {},
         JSON.stringify({ sentence: sentenceText.value })
       );
+    sentenceText.value = '';
   };
 </script>
 
@@ -134,9 +129,8 @@
   .ffo-content-list {
     display: flex;
     flex-direction: column-reverse;
-
-    /* height: 280px; */
     width: 40%;
+    height: 280px;
     overflow: auto;
   }
 
@@ -151,7 +145,7 @@
 
   .ffo-sentence-text {
     display: flex;
-    width: 300px;
+    width: 250px;
     background-color: #e5e5e5;
     border-radius: 5px;
   }

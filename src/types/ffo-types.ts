@@ -19,3 +19,8 @@ export interface FfoNextOutputVO {
   nextUser: UserDto;
   nextEndTime: string;
 }
+
+export interface FfoGameOverOutputVO {
+  ranking: UserDto[];
+  endTime: string;
+}

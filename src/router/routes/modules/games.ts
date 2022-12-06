@@ -7,7 +7,7 @@ const GAMES: AppRouteRecordRaw = {
   component: DEFAULT_LAYOUT,
   meta: {
     locale: '游戏列表',
-    icon: 'icon-user',
+    icon: 'icon-apps',
     requiresAuth: false,
     order: 8,
     roles: ['*'],
