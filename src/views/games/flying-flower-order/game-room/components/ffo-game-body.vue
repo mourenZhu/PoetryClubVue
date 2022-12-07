@@ -26,13 +26,24 @@
     </div>
     <div class="ffo-content-right">
       <div>
-        <p>下一个回答用户: {{ nextUser.nickname }}</p>
-        <p
-          >剩余时间:
-          <a-countdown :value="timeLeft"></a-countdown>
-        </p>
+        <p>下一个回答用户: {{ nextVO?.nextUser.nickname }}</p>
+        <p v-show="!isShowVote"
+          >剩余时间: <a-countdown :value="timeLeft"></a-countdown
+        ></p>
       </div>
-      <div v-show="nextUser.username === userStore.username">
+      <div v-show="isShowVote">
+        <p
+          >投票剩余时间:
+          <a-countdown :value="voteTimeLeft"></a-countdown>
+        </p>
+        <p>当前发言用户: {{ voteVO.currentUser.nickname }}</p>
+        <p>当前的句子: {{ voteVO.currentSentence }}</p>
+        <a-space>
+          <a-button status="success" @click="voteFavorButton">通过</a-button>
+          <a-button status="danger" @click="voteOpposeButton">拒绝</a-button>
+        </a-space>
+      </div>
+      <div v-show="nextVO?.nextUser.username === userStore.username">
         <a-space>
           <a-textarea v-model="sentenceText" :max-length="255"></a-textarea>
           <a-button type="primary" @click="sendSentence">发送飞花令</a-button>
@@ -46,12 +57,19 @@
   import { useFfoGameStore, useStompStore, useUserStore } from '@/store';
   import { computed, reactive, ref, watch } from 'vue';
   import { IFrame } from '@stomp/stompjs/src/i-frame';
-  import { UserDto } from '@/types/user-dto';
   import { FfoGameSentenceDTO } from '@/store/modules/ffo-game/types';
+  import {
+    FfoNextOutputVO,
+    FfoVoteOutputVO,
+    FfoVoteType,
+  } from '@/types/ffo-types';
+  import { postFfoVote } from '@/api/flying-flower-order';
 
   const userStore = useUserStore();
   const stompStore = useStompStore();
   const ffoGameStore = useFfoGameStore();
+
+  const isShowVote = ref<boolean>(false);
 
   const updateFfoGame = (message: IFrame) => {
     console.log('游戏房间数据: ', message.body);
@@ -64,22 +82,62 @@
 
   const receiveSentence = (message: IFrame) => {
     console.log('句子', message.body);
-    ffoGameStore.addSentence(JSON.parse(message.body));
+    const sentence: FfoGameSentenceDTO = JSON.parse(message.body);
+    isShowVote.value = sentence.sentenceJudgeType === 'WAITING_USERS_VOTE';
+    ffoGameStore.addSentence(sentence);
   };
-  const nextUser: UserDto = reactive<UserDto>({} as UserDto);
-  const nextEndTime = ref<string>('');
-
+  const nextVO: FfoNextOutputVO = reactive({
+    nextUser: {
+      username: '',
+      nickname: '',
+      avatar: '',
+    },
+    nextEndTime: '',
+  });
+  // const nextUser: UserDto = reactive<UserDto>({} as UserDto);
+  const timeLeft = computed(() => {
+    return Date.parse(nextVO?.nextEndTime);
+  });
   const updateNext = (message: IFrame) => {
     console.log('下一个回答者', message.body);
-    Object.assign(nextUser, JSON.parse(message.body).nextUser);
-    nextEndTime.value = JSON.parse(message.body).nextEndTime;
+    Object.assign(nextVO, JSON.parse(message.body));
   };
 
-  const timeLeft = computed(() => {
-    const num = Date.parse(nextEndTime.value);
-    console.log('回答剩余时间', num);
-    return num;
+  const voteVO: FfoVoteOutputVO = reactive({
+    currentUser: {
+      username: '',
+      nickname: '',
+      avatar: '',
+    },
+    currentSentence: '',
+    speakingTime: '',
+    endTime: '',
   });
+  const voteTimeLeft = computed(() => {
+    return Date.parse(voteVO.endTime);
+  });
+  const voteHandle = (message: IFrame) => {
+    console.log('接收到投票了', message.body);
+    isShowVote.value = true;
+    const vote: FfoVoteOutputVO = JSON.parse(message.body);
+    Object.assign(voteVO, vote);
+  };
+
+  const ffoVote = (voteType: FfoVoteType) => {
+    postFfoVote(ffoGameStore.ffoGame.roomId, { ffoVoteType: voteType }).then(
+      (res) => {
+        console.log('投票后', res);
+      }
+    );
+  };
+
+  const voteFavorButton = () => {
+    ffoVote('FAVOR');
+  };
+
+  const voteOpposeButton = () => {
+    ffoVote('OPPOSE');
+  };
 
   watch(
     () => stompStore.connected,
@@ -96,6 +154,12 @@
           .subscribe(
             `/user/${userStore.userInfo.username}/game/ffo/sentence`,
             receiveSentence
+          );
+        stompStore
+          .getClient()
+          .subscribe(
+            `/user/${userStore.userInfo.username}/game/ffo/vote`,
+            voteHandle
           );
         stompStore
           .getClient()

@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { BaseRes } from '@/types/global';
+import { FfoVoteReqVO } from '@/types/ffo-types';
 
 // eslint-disable-next-line no-shadow
 export enum FfoGamePoemType {
   ONLY_ANCIENTS_POEM = 'ONLY_ANCIENTS_POEM',
-  ALLOW_SELF_CREAT = 'ALLOW_SELF_CREAT',
+  ONLY_SELF_CREAT = 'ONLY_SELF_CREAT',
+  ALL = 'ALL',
 }
 
 // eslint-disable-next-line no-shadow
@@ -58,4 +59,8 @@ export function leaveGameRoom() {
 
 export function startGame() {
   return axios.post<boolean>(`${baseUrl}`);
+}
+
+export function postFfoVote(roomId: string, ffoVoteReqVO: FfoVoteReqVO) {
+  return axios.post<boolean>(`${baseUrl}/${roomId}/vote`, ffoVoteReqVO);
 }

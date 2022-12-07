@@ -24,3 +24,14 @@ export interface FfoGameOverOutputVO {
   ranking: UserDto[];
   endTime: string;
 }
+
+export interface FfoVoteOutputVO {
+  currentUser: UserDto;
+  currentSentence: string;
+  speakingTime: string;
+  endTime: string;
+}
+
+export interface FfoVoteReqVO {
+  ffoVoteType: FfoVoteType;
+}

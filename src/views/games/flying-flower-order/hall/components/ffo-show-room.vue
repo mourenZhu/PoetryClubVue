@@ -2,40 +2,42 @@
   <a-card :style="{ width: '360px' }" hoverable>
     <template #title>
       <a-space direction="vertical" size="mini">
-        <a-typography-text>ID: {{ ffoGameRoomResVO.id }}</a-typography-text>
         <a-typography-text
-          >房间名: {{ ffoGameRoomResVO.name }}</a-typography-text
+          >ID: {{ props.ffoGameRoomResVO.id }}</a-typography-text
         >
+        <a-typography-text
+          >房间名: {{ props.ffoGameRoomResVO.name }}
+        </a-typography-text>
       </a-space>
     </template>
     <template #extra>
       <a-button
+        :disabled="props.ffoGameRoomResVO.remainingSeats === 0"
         type="primary"
-        :disabled="ffoGameRoomResVO.remainingSeats === 0"
         @click="clickEnterRoom"
         >加入游戏
       </a-button>
     </template>
     <a-space direction="vertical">
       <a-typography-text
-        >剩余席位: {{ ffoGameRoomResVO.remainingSeats }}</a-typography-text
-      >
+        >剩余席位: {{ props.ffoGameRoomResVO.remainingSeats }}
+      </a-typography-text>
       <a-typography-text
-        >房主: {{ ffoGameRoomResVO.homeowner }}</a-typography-text
-      >
+        >房主: {{ props.ffoGameRoomResVO.homeowner }}
+      </a-typography-text>
       <a-space>
         <a-space>
           <a-typography-text>游戏状态:</a-typography-text>
           <a-tag
-            v-if="ffoGameRoomResVO.ffoStateType === FfoStateType.WAITING"
+            v-if="props.ffoGameRoomResVO.ffoStateType === FfoStateType.WAITING"
             color="green"
-            >等待中</a-tag
-          >
+            >等待中
+          </a-tag>
           <a-tag
-            v-if="ffoGameRoomResVO.ffoStateType === FfoStateType.PLAYING"
+            v-if="props.ffoGameRoomResVO.ffoStateType === FfoStateType.PLAYING"
             color="gold"
-            >游戏中</a-tag
-          >
+            >游戏中
+          </a-tag>
         </a-space>
         <a-typography-text>游戏类型: {{ gameTypeName }}</a-typography-text>
       </a-space>
@@ -65,7 +67,12 @@
     ) {
       return '仅古诗';
     }
-    return '可自由创作';
+    if (
+      props.ffoGameRoomResVO.ffoGamePoemType === FfoGamePoemType.ONLY_SELF_CREAT
+    ) {
+      return '仅自由创作';
+    }
+    return '都可以';
   });
 
   const clickEnterRoom = async () => {
