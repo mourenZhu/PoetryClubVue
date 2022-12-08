@@ -3,9 +3,20 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import svgLoader from 'vite-svg-loader';
+// eslint-disable-next-line import/no-unresolved
+import Components from 'unplugin-vue-components/vite';
+// eslint-disable-next-line import/no-unresolved
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 
 export default defineConfig({
-  plugins: [vue(), vueJsx(), svgLoader({ svgoConfig: {} })],
+  plugins: [
+    vue(),
+    vueJsx(),
+    svgLoader({ svgoConfig: {} }),
+    Components({
+      resolvers: [],
+    }),
+  ],
   resolve: {
     alias: [
       {

@@ -45,7 +45,7 @@
     </a-form-item>
     <a-form-item field="maxSentenceLength" label="句子的最大长度">
       <a-input-number
-        v-model="form.maxPlayers"
+        v-model="form.maxSentenceLength"
         :max="10"
         :min="4"
         mode="button"

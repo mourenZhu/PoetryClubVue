@@ -10,16 +10,19 @@
           <img :src="item.user.avatar" alt="avatar" />
         </a-avatar>
         <div class="ffo-name-and-sentence">
-          <div
-            >{{ item.user.nickname }} : {{ item.user.username }} -
-            {{ item.createTime }}
-          </div>
+          <div>{{ item.user.nickname }} - {{ item.createTime }}</div>
           <div class="ffo-sentence-text">
             <a-typography-paragraph
               style="text-align: justify; word-break: break-word"
             >
               {{ item.sentence }}
             </a-typography-paragraph>
+          </div>
+          <div style="display: flex">
+            <a-tag v-if="item.sentenceJudgeType === 'SUCCESS'" color="green"
+              >通过</a-tag
+            >
+            <a-tag v-else color="red">不通过</a-tag>
           </div>
         </div>
       </div>
@@ -28,13 +31,14 @@
       <div>
         <p>下一个回答用户: {{ nextVO?.nextUser.nickname }}</p>
         <p v-show="!isShowVote"
-          >剩余时间: <a-countdown :value="timeLeft"></a-countdown
-        ></p>
+          >剩余时间:
+          <StatisticCountdown :value="timeLeft"></StatisticCountdown>
+        </p>
       </div>
       <div v-show="isShowVote">
         <p
           >投票剩余时间:
-          <a-countdown :value="voteTimeLeft"></a-countdown>
+          <StatisticCountdown :value="voteTimeLeft"></StatisticCountdown>
         </p>
         <p>当前发言用户: {{ voteVO.currentUser.nickname }}</p>
         <p>当前的句子: {{ voteVO.currentSentence }}</p>
@@ -64,6 +68,8 @@
     FfoVoteType,
   } from '@/types/ffo-types';
   import { postFfoVote } from '@/api/flying-flower-order';
+  import { StatisticCountdown } from 'ant-design-vue';
+  import 'ant-design-vue/es/message/style/css';
 
   const userStore = useUserStore();
   const stompStore = useStompStore();
@@ -96,7 +102,9 @@
   });
   // const nextUser: UserDto = reactive<UserDto>({} as UserDto);
   const timeLeft = computed(() => {
-    return Date.parse(nextVO?.nextEndTime);
+    const n = Date.parse(nextVO?.nextEndTime);
+    console.log('下一次回答截止时间', n);
+    return n;
   });
   const updateNext = (message: IFrame) => {
     console.log('下一个回答者', message.body);
@@ -114,7 +122,9 @@
     endTime: '',
   });
   const voteTimeLeft = computed(() => {
-    return Date.parse(voteVO.endTime);
+    const n = Date.parse(voteVO.endTime);
+    console.log('投票截止时间', n);
+    return n;
   });
   const voteHandle = (message: IFrame) => {
     console.log('接收到投票了', message.body);
@@ -204,6 +214,7 @@
   }
 
   .ffo-name-and-sentence {
+    /* display: flex; */
     margin-left: 5px;
   }
 

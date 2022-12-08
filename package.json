@@ -30,11 +30,12 @@
     ]
   },
   "dependencies": {
-    "@arco-design/web-vue": "^2.34.1",
+    "@arco-design/web-vue": "^2.39.2",
     "@stomp/stompjs": "^6.1.2",
     "@types/mockjs": "^1.0.4",
     "@types/sockjs-client": "^1.5.1",
     "@vueuse/core": "^7.3.0",
+    "ant-design-vue": "^3.2.15",
     "arco-design-pro-vue": "^2.5.11",
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
