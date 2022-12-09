@@ -28,7 +28,16 @@
       field="keyword"
       label="令"
     >
-      <a-input v-model="form.keyword" :max-length="1"></a-input>
+      <a-select v-model="form.keyword" :allow-create="true" :max-length="1">
+        <a-option
+          v-for="item in commonWords"
+          :key="item.word"
+          :value="item.word"
+        >
+          {{ item.word }} - ({{ item.usageCount }} 次)
+        </a-option>
+      </a-select>
+      <a-button type="outline" @click="randomCommonWord">随机</a-button>
     </a-form-item>
     <a-form-item field="allowWordInAny" label="令可以在任意位置">
       <a-radio-group v-model="form.allowWordInAny">
@@ -75,12 +84,31 @@
 
 <script lang="ts" setup>
   import { FfoGamePoemType, FfoGameRoomReqVO } from '@/api/flying-flower-order';
-  import { computed } from 'vue';
+  import { computed, reactive } from 'vue';
+  import {
+    CommonWordResVO,
+    getCommonWordTop,
+    getRandomCommonWord,
+  } from '@/api/common-word';
 
   const props = defineProps<{
     data: FfoGameRoomReqVO;
   }>();
   const emit = defineEmits(['update:data']);
+
+  const commonWords: CommonWordResVO[] = reactive([]);
+
+  getCommonWordTop().then((res) => {
+    Object.assign(commonWords, res.data);
+    // console.log('commonWords', commonWords);
+  });
+
+  const randomCommonWord = () => {
+    getRandomCommonWord().then((res) => {
+      // eslint-disable-next-line vue/no-mutating-props
+      props.data.keyword = res.data.word;
+    });
+  };
 
   const form = computed({
     get() {

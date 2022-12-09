@@ -45,7 +45,7 @@
     queryFfoGameRooms,
   } from '@/api/flying-flower-order';
   import FfoShowRoom from '@/views/games/flying-flower-order/hall/components/ffo-show-room.vue';
-  import FfoForm from '@/views/games/flying-flower-order/hall/components/ffo-form.vue';
+  import FfoForm from '@/components/ffo/ffo-form.vue';
   import { useUserStore } from '@/store';
   import { useRouter } from 'vue-router';
 
