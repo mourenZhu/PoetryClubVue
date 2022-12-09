@@ -10,7 +10,7 @@ import { removeRouteListener } from '@/utils/route-listener';
 import { UserState } from './types';
 import useAppStore from '../app';
 
-const useUserStore = defineStore('user', {
+export const useUserStore = defineStore('user', {
   state: (): UserState => ({
     username: undefined,
     nickname: undefined,

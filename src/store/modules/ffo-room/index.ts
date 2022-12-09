@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia';
-import { getAuthorization } from '@/utils/auth';
-import Stomp, { IMessage } from '@stomp/stompjs';
-import stompClient from '@/api/stomp-client';
-import { reactive, ref, watch } from 'vue';
+import { reactive } from 'vue';
 import { FfoGameRoom } from '@/store/modules/ffo-room/types';
+import { useUserStore } from '../user';
 
 const useFfoRoomStore = defineStore('ffoRoom', () => {
   const ffoRoom: FfoGameRoom = reactive<FfoGameRoom>({
@@ -26,11 +24,17 @@ const useFfoRoomStore = defineStore('ffoRoom', () => {
     users: [],
   });
 
+  const userStore = useUserStore();
+
   function update(fr: FfoGameRoom) {
     Object.assign(ffoRoom, fr);
   }
 
-  return { ffoRoom, update };
+  function isHomeowner(): boolean {
+    return ffoRoom.homeowner.username === userStore.username;
+  }
+
+  return { ffoRoom, update, isHomeowner };
 });
 
 export default useFfoRoomStore;
