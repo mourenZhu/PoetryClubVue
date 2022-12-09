@@ -28,18 +28,20 @@
       </div>
     </div>
     <div class="ffo-content-right">
-      <div>
+      <div v-show="!isShowVote">
         <p>下一个回答用户: {{ nextVO?.nextUser.nickname }}</p>
-        <p v-show="!isShowVote"
-          >剩余时间:
+        <div style="display: flex; justify-content: center">
+          <span v-show="!isShowVote" style="display: flex; align-items: center"
+            >剩余时间:
+          </span>
           <StatisticCountdown :value="timeLeft"></StatisticCountdown>
-        </p>
+        </div>
       </div>
       <div v-show="isShowVote">
-        <p
-          >投票剩余时间:
+        <div style="display: flex; justify-content: center">
+          <span style="display: flex; align-items: center">投票剩余时间: </span>
           <StatisticCountdown :value="voteTimeLeft"></StatisticCountdown>
-        </p>
+        </div>
         <p>当前发言用户: {{ voteVO.currentUser.nickname }}</p>
         <p>当前的句子: {{ voteVO.currentSentence }}</p>
         <a-space>
@@ -69,7 +71,7 @@
   } from '@/types/ffo-types';
   import { postFfoVote } from '@/api/flying-flower-order';
   import { StatisticCountdown } from 'ant-design-vue';
-  import 'ant-design-vue/es/message/style/css';
+  // import 'ant-design-vue/es/message/style/css';
 
   const userStore = useUserStore();
   const stompStore = useStompStore();
@@ -230,5 +232,9 @@
     flex-direction: column;
     justify-content: center;
     width: 40%;
+  }
+
+  .ffo-content-right div {
+    margin: 5px;
   }
 </style>
