@@ -55,6 +55,7 @@
   import RoomInfo from '@/views/games/flying-flower-order/game-room/components/room-info.vue';
   import FfoGameBody from '@/views/games/flying-flower-order/game-room/components/ffo-game-body.vue';
   import PlayerRankingList from '@/views/games/flying-flower-order/game-room/components/player-ranking-list.vue';
+  import { Message } from '@arco-design/web-vue';
 
   const route = useRoute();
   const router = useRouter();
@@ -69,17 +70,29 @@
     ffoRoomStore.update(JSON.parse(message.body));
   };
 
+  const userKickOut = (message: IFrame) => {
+    stompStore.disconnect();
+    // Message.warning(message.body);
+    router.push({ name: 'FfoHall' });
+  };
   stompStore.initClient();
   watch(
     () => stompStore.connected,
     (newConnected) => {
-      if (newConnected)
+      if (newConnected) {
         stompStore
           .getClient()
           .subscribe(
             `/user/${userStore.userInfo.username}/game/ffo/room`,
             updateFfoRoom
           );
+        stompStore
+          .getClient()
+          .subscribe(
+            `/user/${userStore.userInfo.username}/game/ffo/room/kick_out`,
+            userKickOut
+          );
+      }
     }
   );
 

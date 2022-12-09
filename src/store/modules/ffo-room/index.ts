@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { FfoGameRoom } from '@/store/modules/ffo-room/types';
 import { useUserStore } from '../user';
 
@@ -26,13 +26,16 @@ const useFfoRoomStore = defineStore('ffoRoom', () => {
 
   const userStore = useUserStore();
 
+  const isHomeowner = computed<boolean>(() => {
+    return ffoRoom.homeowner.username === userStore.username;
+  });
   function update(fr: FfoGameRoom) {
     Object.assign(ffoRoom, fr);
   }
 
-  function isHomeowner(): boolean {
-    return ffoRoom.homeowner.username === userStore.username;
-  }
+  // function isHomeowner(): boolean {
+  //   return ffoRoom.homeowner.username === userStore.username;
+  // }
 
   return { ffoRoom, update, isHomeowner };
 });

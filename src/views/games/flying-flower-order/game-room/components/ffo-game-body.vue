@@ -18,7 +18,10 @@
               {{ item.sentence }}
             </a-typography-paragraph>
           </div>
-          <div style="display: flex">
+          <div
+            v-show="voteVO.currentUser.username !== userStore.username"
+            style="display: flex"
+          >
             <a-tag v-if="item.sentenceJudgeType === 'SUCCESS'" color="green"
               >通过</a-tag
             >

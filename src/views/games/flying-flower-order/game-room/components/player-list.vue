@@ -2,16 +2,28 @@
   <a-card hoverable :style="{ width: '100%', marginBottom: '3px' }">
     <draggable
       :list="players"
-      :disabled="!isHomeowner"
+      :disabled="!ffoRoomStore.isHomeowner"
       class="players"
       @end="onEnd"
     >
       <template #item="{ element }">
         <div class="player">
           <p>{{ element.nickname }}</p>
-          <a-avatar>
-            <img alt="avatar" :src="element.avatar" />
-          </a-avatar>
+          <div>
+            <a-avatar>
+              <img alt="avatar" :src="element.avatar" />
+            </a-avatar>
+          </div>
+          <a-button
+            v-if="ffoRoomStore.isHomeowner"
+            :disabled="
+              element.username === ffoRoomStore.ffoRoom.homeowner.username
+            "
+            type="text"
+            status="danger"
+            @click="tickOutUser(element.username)"
+            >踢出</a-button
+          >
         </div>
       </template>
     </draggable>
@@ -38,13 +50,8 @@
     Object.assign(players, JSON.parse(message.body));
   };
 
-  const isHomeowner = computed<boolean>(() => {
-    console.log('ffoRoomStore.isHomeowner', ffoRoomStore.isHomeowner());
-    return ffoRoomStore.isHomeowner();
-  });
-
   const onEnd = () => {
-    if (isHomeowner.value) {
+    if (ffoRoomStore.isHomeowner) {
       const users: string[] = [];
       players.forEach((player) => {
         users.push(player.username);
@@ -58,6 +65,12 @@
           JSON.stringify(users)
         );
     }
+  };
+
+  const tickOutUser = (kickOutUser: string) => {
+    stompStore
+      .getClient()
+      .send(`/app/ffo/${ffoRoomStore.ffoRoom.id}/kick_out/${kickOutUser}`);
   };
 
   // stompStore.initClient();
@@ -77,6 +90,9 @@
 
 <style scoped>
   .player {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin-right: 10px;
   }
 
