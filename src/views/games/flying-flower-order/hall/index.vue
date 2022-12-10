@@ -57,14 +57,11 @@
     name: `${userInfo.nickname}的游戏房间`,
     maxPlayers: 5,
     keyword: '花',
-    // @ts-ignore 由于组件不能接受布尔类型，所以转换为字符型
-    allowWordInAny: 'true',
+    allowWordInAny: true,
     playerPreparationSecond: 30,
     maxSentenceLength: 7,
-    // @ts-ignore 由于组件不能接受布尔类型，所以转换为字符型
-    constantSentenceLength: 'true',
-    // @ts-ignore 由于组件不能接受布尔类型，所以转换为字符型
-    display: 'true',
+    constantSentenceLength: true,
+    display: true,
     ffoGamePoemType: FfoGamePoemType.ONLY_ANCIENTS_POEM,
   });
 

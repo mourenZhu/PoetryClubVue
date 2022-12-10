@@ -84,7 +84,7 @@
 
 <script lang="ts" setup>
   import { FfoGamePoemType, FfoGameRoomReqVO } from '@/api/flying-flower-order';
-  import { computed, reactive } from 'vue';
+  import { computed, reactive, watch } from 'vue';
   import {
     CommonWordResVO,
     getCommonWordTop,
@@ -94,6 +94,16 @@
   const props = defineProps<{
     data: FfoGameRoomReqVO;
   }>();
+  // @ts-ignore 由于组件不能接受布尔类型，所以转换为字符型
+  // eslint-disable-next-line vue/no-mutating-props
+  props.data.allowWordInAny = String(props.data.allowWordInAny);
+  // @ts-ignore 由于组件不能接受布尔类型，所以转换为字符型
+  // eslint-disable-next-line vue/no-mutating-props
+  props.data.constantSentenceLength = String(props.data.constantSentenceLength);
+  // @ts-ignore 由于组件不能接受布尔类型，所以转换为字符型
+  // eslint-disable-next-line vue/no-mutating-props
+  props.data.display = String(props.data.display);
+
   const emit = defineEmits(['update:data']);
 
   const commonWords: CommonWordResVO[] = reactive([]);
