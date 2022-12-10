@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { FfoVoteReqVO } from '@/types/ffo-types';
+import { UserDto } from '@/types/user-dto';
 
 // eslint-disable-next-line no-shadow
 export enum FfoGamePoemType {
@@ -17,12 +18,13 @@ export enum FfoStateType {
 export interface FfoGameRoomResVO {
   id: string;
   name: string;
+  keyword: string;
   maxPlayers: number;
   playerPreparationSecond: number;
   display: boolean;
   ffoGamePoemType: FfoGamePoemType;
   ffoStateType: FfoStateType;
-  homeowner: string;
+  homeowner: UserDto;
   users: string[];
   remainingSeats: number;
 }

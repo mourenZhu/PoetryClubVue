@@ -3,8 +3,8 @@
     <template #title>
       <a-space direction="vertical" size="mini">
         <a-typography-text
-          >ID: {{ props.ffoGameRoomResVO.id }}</a-typography-text
-        >
+          >ID: {{ props.ffoGameRoomResVO.id }}
+        </a-typography-text>
         <a-typography-text
           >房间名: {{ props.ffoGameRoomResVO.name }}
         </a-typography-text>
@@ -19,12 +19,19 @@
       </a-button>
     </template>
     <a-space direction="vertical">
-      <a-typography-text
-        >剩余席位: {{ props.ffoGameRoomResVO.remainingSeats }}
-      </a-typography-text>
-      <a-typography-text
-        >房主: {{ props.ffoGameRoomResVO.homeowner }}
-      </a-typography-text>
+      <a-space>
+        <a-typography-text
+          >房主: {{ props.ffoGameRoomResVO.homeowner.nickname }}
+        </a-typography-text>
+        <a-typography-text
+          >剩余席位: {{ props.ffoGameRoomResVO.remainingSeats }}
+        </a-typography-text>
+      </a-space>
+      <a-space>
+        <a-typography-text
+          >令: {{ props.ffoGameRoomResVO.keyword }}
+        </a-typography-text>
+      </a-space>
       <a-space>
         <a-space>
           <a-typography-text>游戏状态:</a-typography-text>
