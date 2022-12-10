@@ -7,7 +7,7 @@ const HOME: AppRouteRecordRaw = {
   component: DEFAULT_LAYOUT,
   meta: {
     locale: 'HOME',
-    icon: 'icon-user',
+    icon: 'icon-home',
     requiresAuth: false,
     order: 0,
     roles: ['*', 'visitor'],
