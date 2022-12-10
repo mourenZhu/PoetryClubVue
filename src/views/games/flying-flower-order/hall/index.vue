@@ -86,12 +86,26 @@
               </template>
               搜索房间
             </a-button>
-            <a-button @click="ffoCreateHandleClick">
+            <a-button type="primary" @click="ffoCreateHandleClick">
               <template #icon>
-                <icon-refresh />
+                <icon-relation />
               </template>
               创建房间
             </a-button>
+            <a-button type="primary" @click="() => (privacyRoomVisible = true)">
+              <template #icon>
+                <icon-import />
+              </template>
+              私有房间
+            </a-button>
+            <a-modal
+              v-model:visible="privacyRoomVisible"
+              ok-text="进入私有房间"
+              @cancel="() => (privacyRoomVisible = false)"
+              @ok="enterPrivacyRoom"
+            >
+              <a-input v-model="privacyRoomId" placeholder="房间id"></a-input>
+            </a-modal>
             <a-modal
               v-model:visible="ffoModalVisible"
               :on-before-ok="ffoCreateHandleBeforeOk"
@@ -104,26 +118,6 @@
           </a-space>
         </a-col>
       </a-row>
-      <!--      <a-space class="ffo-hall-header">-->
-      <!--        <a-input-->
-      <!--          :style="{ width: '400px' }"-->
-      <!--          placeholder="请输入房间号或房间名"-->
-      <!--          allow-clear-->
-      <!--        ></a-input>-->
-      <!--        <a-button type="primary">搜索房间</a-button>-->
-      <!--        <a-button type="outline" @click="ffoCreateHandleClick"-->
-      <!--          >创建房间</a-button-->
-      <!--        >-->
-      <!--        <a-modal-->
-      <!--          v-model:visible="ffoModalVisible"-->
-      <!--          :on-before-ok="ffoCreateHandleBeforeOk"-->
-      <!--          ok-text="创建房间"-->
-      <!--          @cancel="ffoCreateHandleCancel"-->
-      <!--        >-->
-      <!--          <template #title> 创建飞花令游戏房间 </template>-->
-      <!--          <FfoForm v-model:data="ffoForm"></FfoForm>-->
-      <!--        </a-modal>-->
-      <!--      </a-space>-->
       <div class="ffo-game-room-list">
         <FfoShowRoom
           v-for="item in ffoGameRoomList"
@@ -141,6 +135,7 @@
   import { reactive, ref } from 'vue';
   import {
     createFfoGameRoom,
+    enterFfoGameRoom,
     FfoGamePoemType,
     FfoGameRoomReqVO,
     FfoGameRoomResVO,
@@ -205,6 +200,20 @@
     });
   };
 
+  const privacyRoomVisible = ref(false);
+  const privacyRoomId = ref('');
+  const enterPrivacyRoom = async () => {
+    console.log('privacyRoomId.value', privacyRoomId.value);
+    if (privacyRoomId.value !== '') {
+      const { data } = await enterFfoGameRoom(privacyRoomId.value);
+      if (data) {
+        await router.push({
+          name: 'ffoGameRoom',
+          params: { roomId: privacyRoomId.value },
+        });
+      }
+    }
+  };
   const initData = async () => {
     const { data } = await queryFfoGameRooms();
     ffoGameRoomList.value = data;
