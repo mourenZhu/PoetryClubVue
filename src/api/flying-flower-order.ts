@@ -44,7 +44,7 @@ export interface FfoGameRoomReqVO {
 const baseUrl = '/api/user/games/ffo';
 
 export function queryFfoGameRooms(p?: any) {
-  return axios.get(`${baseUrl}/`, { params: p });
+  return axios.get(`${baseUrl}/room/`, { params: p });
 }
 
 export function createFfoGameRoom(ffoGameRoomReqVO: FfoGameRoomReqVO) {
