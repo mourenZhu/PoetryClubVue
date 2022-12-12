@@ -82,7 +82,7 @@ export const useUserStore = defineStore('user', {
     // Logout
     async logout() {
       try {
-        await userLogout();
+        // await userLogout();
       } finally {
         this.logoutCallBack();
       }
