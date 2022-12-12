@@ -66,3 +66,9 @@ export function startGame() {
 export function postFfoVote(roomId: string, ffoVoteReqVO: FfoVoteReqVO) {
   return axios.post<boolean>(`${baseUrl}/${roomId}/vote`, ffoVoteReqVO);
 }
+
+export function listUserFfoGame(username: string, pNum: number, pSize: number) {
+  return axios.get(`${baseUrl}/${username}/`, {
+    params: { pageNum: pNum - 1, pageSize: pSize },
+  });
+}
