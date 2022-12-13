@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['游戏记录', '飞花令记录']" />
-    <a-card :title="$t('飞花令记录')" class="general-card">
+    <a-card title="飞花令记录" class="general-card">
       <a-row>
         <a-col :flex="1">
           <a-form
@@ -47,17 +47,14 @@
           <a-table-column data-index="keyword" title="令" />
           <a-table-column data-index="userInfoEntities" title="前三名">
             <template #cell="{ record }">
-              <p
-                v-for="item in getTop3User(record.userInfoEntities)"
-                :key="item.id"
-              >
-                第 {{ item.ranking }} 名: {{ item.userEntity.username }}
+              <p v-for="item in getTop3User(record.userInfos)" :key="item.id">
+                第 {{ item.ranking }} 名: {{ item.userVo.username }}
               </p>
             </template>
           </a-table-column>
           <a-table-column data-index="userSentenceEntities" title="游戏轮数">
             <template #cell="{ record }">
-              {{ record.userSentenceEntities.length }}
+              {{ record.userSentences.length }}
             </template>
           </a-table-column>
           <a-table-column data-index="createTime" title="开始时间" />
@@ -78,15 +75,19 @@
 <script lang="ts" setup>
   import { reactive, ref } from 'vue';
   import { Pagination } from '@/types/global';
-  import { PolicyParams, PolicyRecord } from '@/api/list';
-  import { listUserFfoGame } from '@/api/flying-flower-order';
+  import { PolicyParams } from '@/api/list';
+  import {
+    FfoGameResVo,
+    FfoGameUserInfoResVo,
+    listUserFfoGame,
+  } from '@/api/flying-flower-order';
   import { useUserStore } from '@/store';
   import { useRouter } from 'vue-router';
 
   const userStore = useUserStore();
   const ffoSearchForm = reactive({ id: '' });
 
-  const renderData = ref<PolicyRecord[]>([]);
+  const renderData = ref<FfoGameResVo[]>([]);
   const basePagination: Pagination = {
     current: 1,
     pageSize: 20,
@@ -119,8 +120,8 @@
     fetchData({ ...basePagination, current });
   };
 
-  function getTop3User(list: [any]): any[] {
-    const data: any[] = [];
+  function getTop3User(list: FfoGameUserInfoResVo[]): FfoGameUserInfoResVo[] {
+    const data: FfoGameUserInfoResVo[] = [];
     list.forEach((d) => {
       data.splice(d.ranking - 1, 0, d);
     });
@@ -128,7 +129,14 @@
   }
 
   const router = useRouter();
-  function toFfoGame(id: string) {}
+  function toFfoGame(id: string) {
+    router.push({
+      name: 'FfoDetail',
+      params: {
+        ffoId: id,
+      },
+    });
+  }
 </script>
 
 <style scoped></style>

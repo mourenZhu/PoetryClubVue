@@ -15,7 +15,7 @@ const gameRecord: AppRouteRecordRaw = {
     {
       path: 'ffo-list', // The midline path complies with SEO specifications
       name: 'FfoList',
-      component: () => import('@/views/game-record/ffo/index.vue'),
+      component: () => import('@/views/game-record/ffo-list/index.vue'),
       meta: {
         locale: '飞花令记录',
         requiresAuth: true,
@@ -23,23 +23,15 @@ const gameRecord: AppRouteRecordRaw = {
       },
     },
     {
-      path: 'search-table', // The midline path complies with SEO specifications
-      name: 'SearchTable',
-      component: () => import('@/views/list/search-table/index.vue'),
+      path: '/ffo/:ffoId', // The midline path complies with SEO specifications
+      name: 'FfoDetail',
+      component: () =>
+        import('@/views/game-record/ffo-list/ffo-detail/index.vue'),
       meta: {
-        locale: 'menu.list.searchTable',
+        locale: '飞花令详细信息',
         requiresAuth: true,
         roles: ['*'],
-      },
-    },
-    {
-      path: 'card',
-      name: 'Card',
-      component: () => import('@/views/list/card/index.vue'),
-      meta: {
-        locale: 'menu.list.cardList',
-        requiresAuth: true,
-        roles: ['*'],
+        hideInMenu: true,
       },
     },
   ],

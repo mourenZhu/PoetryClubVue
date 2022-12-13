@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { FfoVoteReqVO } from '@/types/ffo-types';
+import {
+  FfoGameSentenceJudgeType,
+  FfoVoteReqVO,
+  FfoVoteType,
+} from '@/types/ffo-types';
 import { UserDto } from '@/types/user-dto';
 
 // eslint-disable-next-line no-shadow
@@ -41,7 +45,7 @@ export interface FfoGameRoomReqVO {
   ffoGamePoemType: FfoGamePoemType;
 }
 
-const baseUrl = '/api/user/games/ffo';
+const baseUrl = '/api/games/ffo';
 
 export function queryFfoGameRooms(p?: any) {
   return axios.get(`${baseUrl}/room/`, { params: p });
@@ -71,4 +75,45 @@ export function listUserFfoGame(username: string, pNum: number, pSize: number) {
   return axios.get(`${baseUrl}/${username}/`, {
     params: { pageNum: pNum - 1, pageSize: pSize },
   });
+}
+export interface UserPublicResVo {
+  username: string;
+  nickname: string;
+  avatar: string;
+}
+export interface FfoGameUserInfoResVo {
+  id: string;
+  userVo: UserPublicResVo;
+  sequence: number;
+  ranking: number;
+}
+export interface FfoGameUserVoteResVo {
+  userVo: UserPublicResVo;
+  ffoVoteType: FfoVoteType;
+  createTime: string;
+}
+export interface FfoGameUserSentenceResVo {
+  id: string;
+  userVo: UserPublicResVo;
+  sentence: string;
+  poem: any;
+  sentenceJudgeType: FfoGameSentenceJudgeType;
+  userVotes: FfoGameUserVoteResVo[];
+  createTime: string;
+}
+export interface FfoGameResVo {
+  id: string;
+  keyword: string;
+  playerPreparationSecond: number;
+  allowWordInAny: boolean;
+  maxSentenceLength: number;
+  constantSentenceLength: number;
+  ffoGamePoemType: FfoGamePoemType;
+  userInfos: FfoGameUserInfoResVo[];
+  userSentences: FfoGameUserSentenceResVo[];
+  createTime: string;
+  endTime: string;
+}
+export function getFfo(ffoId: string) {
+  return axios.get<FfoGameResVo>(`${baseUrl}/${ffoId}`);
 }
