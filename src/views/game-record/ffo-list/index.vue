@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['游戏记录', '飞花令记录']" />
-    <a-card title="飞花令记录" class="general-card">
+    <a-card class="general-card" title="飞花令记录">
       <a-row>
         <a-col :flex="1">
           <a-form
@@ -12,10 +12,10 @@
           >
             <a-row :gutter="16">
               <a-col :span="8">
-                <a-form-item field="id" label="ID">
+                <a-form-item field="keyword" label="令">
                   <a-input
-                    v-model="ffoSearchForm.id"
-                    placeholder="输入ID搜索"
+                    v-model="ffoSearchForm.keyword"
+                    placeholder="输入令搜索"
                   />
                 </a-form-item>
               </a-col>
@@ -62,8 +62,8 @@
           <a-table-column title="详情">
             <template #cell="{ record }">
               <a-button type="primary" @click="toFfoGame(record.id)"
-                >查看详情</a-button
-              >
+                >查看详情
+              </a-button>
             </template>
           </a-table-column>
         </template>
@@ -85,7 +85,7 @@
   import { useRouter } from 'vue-router';
 
   const userStore = useUserStore();
-  const ffoSearchForm = reactive({ id: '' });
+  const ffoSearchForm = reactive({ keyword: '' });
 
   const renderData = ref<FfoGameResVo[]>([]);
   const basePagination: Pagination = {
@@ -97,11 +97,13 @@
   });
 
   const fetchData = async (
+    keyword = '',
     params: PolicyParams = { current: 1, pageSize: 20 }
   ) => {
     try {
       const { data } = await listUserFfoGame(
         userStore.username || '',
+        keyword,
         params.current,
         params.pageSize
       );
@@ -114,10 +116,14 @@
     }
   };
 
+  function search() {
+    fetchData(ffoSearchForm.keyword);
+  }
+
   fetchData();
 
   const onPageChange = (current: number) => {
-    fetchData({ ...basePagination, current });
+    fetchData(ffoSearchForm.keyword, { ...basePagination, current });
   };
 
   function getTop3User(list: FfoGameUserInfoResVo[]): FfoGameUserInfoResVo[] {
@@ -129,6 +135,7 @@
   }
 
   const router = useRouter();
+
   function toFfoGame(id: string) {
     router.push({
       name: 'FfoDetail',
