@@ -124,7 +124,7 @@
     list.forEach((d) => {
       data.splice(d.ranking - 1, 0, d);
     });
-    return data;
+    return data.slice(0, 3);
   }
 
   const router = useRouter();
