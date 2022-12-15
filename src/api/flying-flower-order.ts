@@ -81,22 +81,26 @@ export function listUserFfoGame(
     params: { keyword: kw, pageNum: pNum - 1, pageSize: pSize },
   });
 }
+
 export interface UserPublicResVo {
   username: string;
   nickname: string;
   avatar: string;
 }
+
 export interface FfoGameUserInfoResVo {
   id: string;
   userVo: UserPublicResVo;
   sequence: number;
   ranking: number;
 }
+
 export interface FfoGameUserVoteResVo {
   userVo: UserPublicResVo;
   ffoVoteType: FfoVoteType;
   createTime: string;
 }
+
 export interface FfoGameUserSentenceResVo {
   id: string;
   userVo: UserPublicResVo;
@@ -106,6 +110,7 @@ export interface FfoGameUserSentenceResVo {
   userVotes: FfoGameUserVoteResVo[];
   createTime: string;
 }
+
 export interface FfoGameResVo {
   id: string;
   keyword: string;
@@ -119,6 +124,23 @@ export interface FfoGameResVo {
   createTime: string;
   endTime: string;
 }
+
 export function getFfo(ffoId: string) {
   return axios.get<FfoGameResVo>(`${baseUrl}/${ffoId}`);
+}
+
+export function listFfoGame(
+  un: string,
+  kw: string,
+  pNum: number,
+  pSize: number
+) {
+  return axios.get(`${baseUrl}/`, {
+    params: {
+      username: un,
+      keyword: kw,
+      pageNum: pNum - 1,
+      pageSize: pSize,
+    },
+  });
 }
