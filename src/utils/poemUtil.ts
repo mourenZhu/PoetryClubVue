@@ -14,7 +14,7 @@ export function getSentenceList(content: string): string[] {
   return sentenceList;
 }
 
-export function cnPoemType(poemType: PoemType): string {
+export function getCnPoemType(poemType: PoemType): string {
   if (poemType === 'FIVE_CHARACTER_RHYTHM_POEM') {
     return '五言律诗';
   }
@@ -47,5 +47,3 @@ export function cnPoemType(poemType: PoemType): string {
   }
   return '';
 }
-
-export default null;

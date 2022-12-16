@@ -103,7 +103,7 @@
           </a-table-column>
           <a-table-column data-index="poemType" title="类型" width="100">
             <template #cell="{ record }">
-              {{ cnPoemType(record.poemType) }}
+              {{ getCnPoemType(record.poemType) }}
             </template>
           </a-table-column>
           <a-table-column data-index="tags" title="标签" width="100">
@@ -117,7 +117,7 @@
           </a-table-column>
           <a-table-column title="详情">
             <template #cell="{ record }">
-              <a-button type="primary" @click="toFfoGame(record.id)"
+              <a-button type="primary" @click="toPoem(record.id)"
                 >查看详情
               </a-button>
             </template>
@@ -134,8 +134,10 @@
   import { Pagination } from '@/types/global';
   import { useRouter } from 'vue-router';
   import { listPoem, PoemParams, PoemResVo, PoemType } from '@/api/poem';
-  import { getSentenceList, cnPoemType } from '@/utils/poemUtil';
+  import { getSentenceList, getCnPoemType } from '@/utils/poemUtil';
+  import useLoading from '@/hooks/loading';
 
+  const { loading, setLoading } = useLoading(true);
   const userStore = useUserStore();
   const poemSearchForm = reactive({
     author: '杜甫',
@@ -157,6 +159,7 @@
   const fetchData = async (
     params: PoemParams = { current: 1, pageSize: 20 }
   ) => {
+    setLoading(true);
     try {
       params.title = poemSearchForm.title;
       params.author = poemSearchForm.author;
@@ -170,6 +173,8 @@
       pagination.total = data.totalElements;
     } catch (err) {
       // you can report use errorHandler or other
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -185,11 +190,11 @@
 
   const router = useRouter();
 
-  function toFfoGame(id: string) {
+  function toPoem(id: string) {
     router.push({
-      name: 'FfoDetail',
+      name: 'Poem',
       params: {
-        ffoId: id,
+        poemId: id,
       },
     });
   }
