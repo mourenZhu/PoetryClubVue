@@ -17,6 +17,10 @@ export interface AuthorParams {
   pageSize?: number;
 }
 
+export function getAuthor(id: string) {
+  return axios.get(`${baseUrl}/${id}`);
+}
+
 export function listAuthor(params: AuthorParams) {
   return axios.get(`${baseUrl}/`, {
     params: {

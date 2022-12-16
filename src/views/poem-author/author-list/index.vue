@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['古诗', '古诗列表']" />
-    <a-card class="general-card" title="古诗">
+    <Breadcrumb :items="['诗人', '诗人列表']" />
+    <a-card class="general-card" title="诗人">
       <a-row>
         <a-col :flex="1">
           <a-form
@@ -64,12 +64,12 @@
           <a-table-column data-index="era" title="朝代" width="150" />
           <a-table-column data-index="description" title="描述">
             <template #cell="{ record }">
-              {{ record.description }}
+              {{ '\xa0\xa0' + record.description }}
             </template>
           </a-table-column>
           <a-table-column title="详情">
             <template #cell="{ record }">
-              <a-button type="primary" @click="toFfoGame(record.id)"
+              <a-button type="primary" @click="toPage(record.id)"
                 >查看详情
               </a-button>
             </template>
@@ -138,12 +138,10 @@
 
   const router = useRouter();
 
-  function toFfoGame(id: string) {
+  function toPage(id: string) {
     router.push({
-      name: 'FfoDetail',
-      params: {
-        ffoId: id,
-      },
+      name: 'Author',
+      params: { id },
     });
   }
 </script>

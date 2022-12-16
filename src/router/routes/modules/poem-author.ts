@@ -43,6 +43,17 @@ const PoemAuthorRecord: AppRouteRecordRaw = {
         roles: ['*', 'visitor'],
       },
     },
+    {
+      path: '/author/:id', // The midline path complies with SEO specifications
+      name: 'Author',
+      component: () => import('@/views/poem-author/author/index.vue'),
+      meta: {
+        locale: '诗人详情',
+        requiresAuth: true,
+        roles: ['*', 'visitor'],
+        hideInMenu: true,
+      },
+    },
   ],
 };
 
