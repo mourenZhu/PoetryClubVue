@@ -22,7 +22,16 @@ const AdminBoard: AppRouteRecordRaw = {
         roles: ['admin'],
       },
     },
-
+    {
+      path: 'user-list',
+      name: 'AdminUserList',
+      component: () => import('@/views/admin-board/user-list/index.vue'),
+      meta: {
+        locale: '用户列表',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
     {
       path: 'monitor',
       name: 'Monitor',
