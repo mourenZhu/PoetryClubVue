@@ -12,12 +12,15 @@
           <a-tab-pane key="1" :title="$t('userSetting.tab.basicInformation')">
             <BasicInformation />
           </a-tab-pane>
-          <a-tab-pane key="2" :title="$t('userSetting.tab.securitySettings')">
-            <SecuritySettings />
+          <a-tab-pane key="2" title="修改密码">
+            <ChangePassword />
           </a-tab-pane>
-          <a-tab-pane key="3" :title="$t('userSetting.tab.certification')">
-            <Certification />
-          </a-tab-pane>
+          <!--          <a-tab-pane key="2" :title="$t('userSetting.tab.securitySettings')">-->
+          <!--            <SecuritySettings />-->
+          <!--          </a-tab-pane>-->
+          <!--          <a-tab-pane key="3" :title="$t('userSetting.tab.certification')">-->
+          <!--            <Certification />-->
+          <!--          </a-tab-pane>-->
         </a-tabs>
       </a-col>
     </a-row>
@@ -29,6 +32,7 @@
   import BasicInformation from './components/basic-information.vue';
   import SecuritySettings from './components/security-settings.vue';
   import Certification from './components/certification.vue';
+  import ChangePassword from './components/change-password.vue';
 </script>
 
 <script lang="ts">
@@ -43,8 +47,8 @@
   }
 
   .wrapper {
-    padding: 20px 0 0 20px;
     min-height: 580px;
+    padding: 20px 0 0 20px;
     background-color: var(--color-bg-2);
     border-radius: 4px;
   }

@@ -44,8 +44,20 @@ export interface BasicInfoModel {
   profile: string;
 }
 
-export function saveUserInfo(info: BasicInfoModel) {
+export interface UserReqVO {
+  email: string;
+  nickname: string;
+}
+
+export function saveUserInfo(info: UserReqVO) {
   return axios.post('/api/user/info', info);
+}
+export interface ChangePasswordVo {
+  oldPassword: string;
+  newPassword: string;
+}
+export function changePassword(changePasswordVo: ChangePasswordVo) {
+  return axios.post('/api/user/password', changePasswordVo);
 }
 
 export interface EnterpriseCertificationModel {

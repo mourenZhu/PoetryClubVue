@@ -77,24 +77,16 @@
   };
   const renderData = [
     {
-      label: 'userSetting.label.name',
+      label: '用户名',
       value: userStore.username,
     },
     {
-      label: 'userSetting.label.certification',
-      value: userStore.certification,
+      label: '昵称',
+      value: userStore.nickname,
     },
     {
-      label: 'userSetting.label.accountId',
-      value: userStore.accountId,
-    },
-    {
-      label: 'userSetting.label.phone',
-      value: userStore.phone,
-    },
-    {
-      label: 'userSetting.label.registrationDate',
-      value: userStore.registrationDate,
+      label: '邮箱',
+      value: userStore.email,
     },
   ] as DescData[];
   const fileList = ref<FileItem[]>([file]);
