@@ -136,7 +136,7 @@
   fetchData();
 
   const onPageChange = (current: number) => {
-    fetchData({ pageNum: current });
+    fetchData({ pageNum: current - 1 });
   };
 
   const router = useRouter();
