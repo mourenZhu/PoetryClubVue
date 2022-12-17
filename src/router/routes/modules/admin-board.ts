@@ -33,6 +33,17 @@ const AdminBoard: AppRouteRecordRaw = {
       },
     },
     {
+      path: ':username/setting',
+      name: 'AdminUserSetting',
+      component: () => import('@/views/admin-board/user-setting/index.vue'),
+      meta: {
+        locale: '用户设置',
+        requiresAuth: true,
+        roles: ['admin'],
+        hideInMenu: true,
+      },
+    },
+    {
       path: 'monitor',
       name: 'Monitor',
       component: () => import('@/views/dashboard/monitor/index.vue'),

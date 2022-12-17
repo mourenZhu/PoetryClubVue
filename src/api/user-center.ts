@@ -52,12 +52,25 @@ export interface UserReqVO {
 export function saveUserInfo(info: UserReqVO) {
   return axios.post('/api/user/info', info);
 }
+
+export function adminSaveUserInfo(username: string, info: UserReqVO) {
+  return axios.put(`/api/user/${username}/info`, info);
+}
 export interface ChangePasswordVo {
   oldPassword: string;
   newPassword: string;
 }
 export function changePassword(changePasswordVo: ChangePasswordVo) {
   return axios.post('/api/user/password', changePasswordVo);
+}
+export interface AdminChangePasswordVo {
+  newPassword: string;
+}
+export function adminChangePassword(
+  username: string,
+  adminChangePasswordVo: AdminChangePasswordVo
+) {
+  return axios.post(`/api/user/${username}/password`, adminChangePasswordVo);
 }
 
 export interface EnterpriseCertificationModel {

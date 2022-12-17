@@ -141,11 +141,11 @@
 
   const router = useRouter();
 
-  function toPoem(id: string) {
+  function toPage(username: string) {
     router.push({
-      name: 'Poem',
+      name: 'AdminUserSetting',
       params: {
-        poemId: id,
+        username,
       },
     });
   }

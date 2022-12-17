@@ -12,13 +12,22 @@ export interface LoginData {
 export interface LoginRes {
   token: string;
 }
-
 export interface UserResVO {
   username: string;
   nickname: string;
   email: string;
   avatar: string;
   roles: RoleType[];
+}
+
+export function getInitUserResVo(): UserResVO {
+  return {
+    username: '',
+    nickname: '',
+    email: '',
+    avatar: '',
+    roles: [],
+  };
 }
 
 const baseUrl = '/api/user';

@@ -12,6 +12,7 @@
           Authorization: getAuthorization(),
         }"
         @change="uploadChange"
+        @success="uploadSuccess"
       >
         <template #upload-button>
           <a-avatar :size="100" class="info-avatar">
@@ -68,6 +69,7 @@
   import { userUploadAvatarApi } from '@/api/user-center';
   import { getAuthorization } from '@/utils/auth';
   import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
+  import { Message } from '@arco-design/web-vue';
 
   const userStore = useUserStore();
   const file = {
@@ -93,48 +95,51 @@
   const uploadChange = (fileItemList: FileItem[], fileItem: FileItem) => {
     fileList.value = [fileItem];
   };
-  const customRequest = (options: RequestOption) => {
-    // docs: https://axios-http.com/docs/cancellation
-    const controller = new AbortController();
-
-    (async function requestWrap() {
-      const {
-        onProgress,
-        onError,
-        onSuccess,
-        fileItem,
-        name = 'file',
-      } = options;
-      onProgress(20);
-      const formData = new FormData();
-      formData.append(name as string, fileItem.file as Blob);
-      const onUploadProgress = (event: ProgressEvent) => {
-        let percent;
-        if (event.total > 0) {
-          percent = (event.loaded / event.total) * 100;
-        }
-        onProgress(parseInt(String(percent), 10), event);
-      };
-
-      try {
-        // https://github.com/axios/axios/issues/1630
-        // https://github.com/nuysoft/Mock/issues/127
-
-        const res = await userUploadAvatarApi(formData, {
-          controller,
-          onUploadProgress,
-        });
-        onSuccess(res);
-      } catch (error) {
-        onError(error);
-      }
-    })();
-    return {
-      abort() {
-        controller.abort();
-      },
-    };
+  const uploadSuccess = (fileItem: FileItem) => {
+    Message.success('上传成功');
   };
+  // const customRequest = (options: RequestOption) => {
+  //   // docs: https://axios-http.com/docs/cancellation
+  //   const controller = new AbortController();
+  //
+  //   (async function requestWrap() {
+  //     const {
+  //       onProgress,
+  //       onError,
+  //       onSuccess,
+  //       fileItem,
+  //       name = 'file',
+  //     } = options;
+  //     onProgress(20);
+  //     const formData = new FormData();
+  //     formData.append(name as string, fileItem.file as Blob);
+  //     const onUploadProgress = (event: ProgressEvent) => {
+  //       let percent;
+  //       if (event.total > 0) {
+  //         percent = (event.loaded / event.total) * 100;
+  //       }
+  //       onProgress(parseInt(String(percent), 10), event);
+  //     };
+  //
+  //     try {
+  //       // https://github.com/axios/axios/issues/1630
+  //       // https://github.com/nuysoft/Mock/issues/127
+  //
+  //       const res = await userUploadAvatarApi(formData, {
+  //         controller,
+  //         onUploadProgress,
+  //       });
+  //       onSuccess(res);
+  //     } catch (error) {
+  //       onError(error);
+  //     }
+  //   })();
+  //   return {
+  //     abort() {
+  //       controller.abort();
+  //     },
+  //   };
+  // };
 </script>
 
 <style scoped lang="less">
