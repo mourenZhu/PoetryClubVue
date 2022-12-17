@@ -101,11 +101,17 @@ export interface FfoGameUserVoteResVo {
   createTime: string;
 }
 
+export interface InfoPoemVo {
+  id: string;
+  authorName: string;
+  title: string;
+}
+
 export interface FfoGameUserSentenceResVo {
   id: string;
   userVo: UserPublicResVo;
   sentence: string;
-  poem: any;
+  poem: InfoPoemVo;
   sentenceJudgeType: FfoGameSentenceJudgeType;
   userVotes: FfoGameUserVoteResVo[];
   createTime: string;
