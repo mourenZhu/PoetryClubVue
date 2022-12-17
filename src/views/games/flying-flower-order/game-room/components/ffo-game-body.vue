@@ -47,12 +47,12 @@
         </div>
         <p>当前发言用户: {{ voteVO.currentUser.nickname }}</p>
         <p>当前的句子: {{ voteVO.currentSentence }}</p>
-        <a-space>
+        <a-space v-show="isShowVoteButton">
           <a-button status="success" @click="voteFavorButton">通过</a-button>
           <a-button status="danger" @click="voteOpposeButton">拒绝</a-button>
         </a-space>
       </div>
-      <div v-show="nextVO?.nextUser.username === userStore.username">
+      <div v-show="isShowSendSentence">
         <a-space>
           <a-textarea v-model="sentenceText" :max-length="255"></a-textarea>
           <a-button type="primary" @click="sendSentence">发送飞花令</a-button>
@@ -81,6 +81,8 @@
   const ffoGameStore = useFfoGameStore();
 
   const isShowVote = ref<boolean>(false);
+  const isShowVoteButton = ref<boolean>(true);
+  const isShowSendSentence = ref<boolean>(false);
 
   const updateFfoGame = (message: IFrame) => {
     console.log('游戏房间数据: ', message.body);
@@ -114,6 +116,7 @@
   const updateNext = (message: IFrame) => {
     console.log('下一个回答者', message.body);
     Object.assign(nextVO, JSON.parse(message.body));
+    isShowSendSentence.value = nextVO.nextUser.username === userStore.username;
   };
 
   const voteVO: FfoVoteOutputVO = reactive({
@@ -133,17 +136,20 @@
   });
   const voteHandle = (message: IFrame) => {
     console.log('接收到投票了', message.body);
-    isShowVote.value = true;
     const vote: FfoVoteOutputVO = JSON.parse(message.body);
+    isShowVote.value = true;
+    isShowSendSentence.value = false;
+    isShowVoteButton.value = vote.currentUser.username !== userStore.username;
     Object.assign(voteVO, vote);
   };
 
-  const ffoVote = (voteType: FfoVoteType) => {
-    postFfoVote(ffoGameStore.ffoGame.roomId, { ffoVoteType: voteType }).then(
-      (res) => {
-        console.log('投票后', res);
-      }
-    );
+  const ffoVote = async (voteType: FfoVoteType) => {
+    const { data } = await postFfoVote(ffoGameStore.ffoGame.roomId, {
+      ffoVoteType: voteType,
+    });
+    if (data) {
+      isShowVoteButton.value = false;
+    }
   };
 
   const voteFavorButton = () => {
