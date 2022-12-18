@@ -46,6 +46,10 @@
     </div>
     <div class="ffo-content-right">
       <div v-show="!isShowVote">
+        <p v-if="!ffoGameStore.ffoGame.allowWordInAny">
+          {{ ffoGameStore.ffoGame.keyword }} 应 出现在第
+          {{ nextKeywordIndex }} 个字
+        </p>
         <p>下一个回答用户: {{ nextVO?.nextUser.nickname }}</p>
         <div style="display: flex; justify-content: center">
           <span v-show="!isShowVote" style="display: flex; align-items: center"
@@ -87,7 +91,7 @@
     FfoVoteType,
   } from '@/types/ffo-types';
   import { postFfoVote } from '@/api/flying-flower-order';
-  import { getSentenceJudgeType, getVtoV, getVoteType } from '@/utils/ffoUtil';
+  import { getSentenceJudgeType, getVoteType, getVtoV } from '@/utils/ffoUtil';
   import { StatisticCountdown } from 'ant-design-vue';
   // import 'ant-design-vue/es/message/style/css';
 
@@ -103,6 +107,9 @@
     console.log('游戏房间数据: ', message.body);
     ffoGameStore.update(JSON.parse(message.body));
   };
+
+  // 显示给用户看，从1开始，接收到的是从0开始
+  const nextKeywordIndex = ref(1);
 
   const sentenceList = computed(() => {
     return [...ffoGameStore.ffoGame.userSentences].reverse();
@@ -132,6 +139,10 @@
     console.log('下一个回答者', message.body);
     Object.assign(nextVO, JSON.parse(message.body));
     isShowSendSentence.value = nextVO.nextUser.username === userStore.username;
+  };
+
+  const updateKeywordIndex = (message: IFrame) => {
+    nextKeywordIndex.value = parseInt(message.body, 10) + 1;
   };
 
   const voteVO: FfoVoteOutputVO = reactive({
@@ -202,6 +213,12 @@
           .subscribe(
             `/user/${userStore.userInfo.username}/game/ffo/next`,
             updateNext
+          );
+        stompStore
+          .getClient()
+          .subscribe(
+            `/user/${userStore.userInfo.username}/game/ffo/keyword_index`,
+            updateKeywordIndex
           );
       }
     }

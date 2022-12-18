@@ -7,6 +7,7 @@ const useFfoGameStore = defineStore('ffoGame', () => {
     roomId: '',
     maxPlayers: 0,
     keyword: '',
+    keywordIndex: 0,
     allowWordInAny: false,
     playerPreparationSecond: 0,
     maxSentenceLength: 0,

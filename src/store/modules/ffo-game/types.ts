@@ -24,6 +24,7 @@ export interface FfoGame {
   roomId: string;
   maxPlayers: number;
   keyword: string;
+  keywordIndex: number;
   allowWordInAny: boolean;
   playerPreparationSecond: number;
   maxSentenceLength: number;
