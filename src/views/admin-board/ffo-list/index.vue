@@ -81,7 +81,6 @@
 </template>
 
 <script lang="ts" setup>
-  import { useUserStore } from '@/store';
   import { reactive, ref } from 'vue';
   import {
     FfoGameResVo,

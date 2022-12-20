@@ -64,6 +64,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     TabBar: typeof import('./src/components/tab-bar/index.vue')['default']
     TabItem: typeof import('./src/components/tab-bar/tab-item.vue')['default']
+    WangEditor: typeof import('./src/components/editor/WangEditor.vue')['default']
   }
 }
 

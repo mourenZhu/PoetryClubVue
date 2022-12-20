@@ -14,6 +14,16 @@ const HOME: AppRouteRecordRaw = {
   },
   children: [
     {
+      path: 'announcement',
+      name: 'Announcement',
+      component: () => import('@/views/home/announcement/index.vue'),
+      meta: {
+        locale: '公告',
+        requiresAuth: false,
+        roles: ['*', 'visitor'],
+      },
+    },
+    {
       path: 'games',
       name: 'Games',
       component: () => import('@/views/home/games/index.vue'),

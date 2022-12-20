@@ -13,6 +13,40 @@ const AdminBoard: AppRouteRecordRaw = {
   },
   children: [
     {
+      path: 'announcement-create',
+      name: 'AnnouncementCreate',
+      component: () =>
+        import('@/views/admin-board/announcement-create/index.vue'),
+      meta: {
+        locale: '创建公告',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+    {
+      path: 'announcement/:id/update',
+      name: 'AnnouncementUpdate',
+      component: () =>
+        import('@/views/admin-board/announcement-update/index.vue'),
+      meta: {
+        locale: '修改公告',
+        hideInMenu: true,
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+    {
+      path: 'announcement-list',
+      name: 'AnnouncementList',
+      component: () =>
+        import('@/views/admin-board/announcement-list/index.vue'),
+      meta: {
+        locale: '公告列表',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+    {
       path: 'ffo-list',
       name: 'AdminFfoList',
       component: () => import('@/views/admin-board/ffo-list/index.vue'),
@@ -41,16 +75,6 @@ const AdminBoard: AppRouteRecordRaw = {
         requiresAuth: true,
         roles: ['admin'],
         hideInMenu: true,
-      },
-    },
-    {
-      path: 'monitor',
-      name: 'Monitor',
-      component: () => import('@/views/dashboard/monitor/index.vue'),
-      meta: {
-        locale: 'menu.dashboard.monitor',
-        requiresAuth: true,
-        roles: ['admin'],
       },
     },
   ],
