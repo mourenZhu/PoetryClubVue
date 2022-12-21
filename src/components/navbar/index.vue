@@ -10,7 +10,7 @@
           :style="{ margin: 0, fontSize: '18px' }"
           :heading="5"
         >
-          Arco Pro
+          诗社
         </a-typography-title>
         <icon-menu-fold
           v-if="appStore.device === 'mobile'"
@@ -42,7 +42,7 @@
             </template>
           </a-button>
         </a-tooltip>
-        <a-dropdown trigger="click" @select="changeLocale as any">
+        <a-dropdown trigger="click" @select="changeLocale">
           <div ref="triggerBtn" class="trigger-btn"></div>
           <template #content>
             <a-doption

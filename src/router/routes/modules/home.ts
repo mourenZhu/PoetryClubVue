@@ -23,16 +23,16 @@ const HOME: AppRouteRecordRaw = {
         roles: ['*', 'visitor'],
       },
     },
-    {
-      path: 'games',
-      name: 'Games',
-      component: () => import('@/views/home/games/index.vue'),
-      meta: {
-        locale: '游戏列表',
-        requiresAuth: false,
-        roles: ['*', 'visitor'],
-      },
-    },
+    // {
+    //   path: 'games',
+    //   name: 'Games',
+    //   component: () => import('@/views/home/games/index.vue'),
+    //   meta: {
+    //     locale: '游戏列表',
+    //     requiresAuth: false,
+    //     roles: ['*', 'visitor'],
+    //   },
+    // },
   ],
 };
 
