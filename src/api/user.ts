@@ -18,6 +18,8 @@ export interface UserResVO {
   email: string;
   avatar: string;
   roles: RoleType[];
+  createTime: string;
+  updateTime: string;
 }
 
 export function getInitUserResVo(): UserResVO {
@@ -27,6 +29,8 @@ export function getInitUserResVo(): UserResVO {
     email: '',
     avatar: '',
     roles: [],
+    createTime: '',
+    updateTime: '',
   };
 }
 

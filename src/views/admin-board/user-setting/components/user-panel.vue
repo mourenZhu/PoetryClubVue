@@ -96,6 +96,14 @@
         label: '角色',
         value: userVo.roles,
       },
+      {
+        label: '创建时间',
+        value: userVo.createTime,
+      },
+      {
+        label: '更新时间',
+        value: userVo.updateTime,
+      },
     ] as DescData[];
   });
 

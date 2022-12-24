@@ -90,6 +90,14 @@
       label: '邮箱',
       value: userStore.email,
     },
+    {
+      label: '创建时间',
+      value: userStore.createTime,
+    },
+    {
+      label: '更新时间',
+      value: userStore.updateTime,
+    },
   ] as DescData[];
   const fileList = ref<FileItem[]>([file]);
   const uploadChange = (fileItemList: FileItem[], fileItem: FileItem) => {

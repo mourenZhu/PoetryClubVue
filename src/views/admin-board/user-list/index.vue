@@ -6,7 +6,7 @@
         <a-col :flex="1">
           <a-form
             :label-col-props="{ span: 6 }"
-            :model="poemSearchForm"
+            :model="searchForm"
             :wrapper-col-props="{ span: 18 }"
             label-align="left"
           >
@@ -14,7 +14,7 @@
               <a-col :span="8">
                 <a-form-item field="nickname" label="昵称">
                   <a-input
-                    v-model="poemSearchForm.nickname"
+                    v-model="searchForm.nickname"
                     placeholder="输入昵称搜索"
                   />
                 </a-form-item>
@@ -22,7 +22,7 @@
               <a-col :span="8">
                 <a-form-item field="username" label="用户名">
                   <a-input
-                    v-model="poemSearchForm.username"
+                    v-model="searchForm.username"
                     placeholder="输入用户名搜索"
                   />
                 </a-form-item>
@@ -30,7 +30,7 @@
               <a-col :span="8">
                 <a-form-item field="email" label="邮箱">
                   <a-input
-                    v-model="poemSearchForm.email"
+                    v-model="searchForm.email"
                     placeholder="输入邮箱搜索"
                   />
                 </a-form-item>
@@ -70,6 +70,8 @@
           <a-table-column data-index="nickname" title="昵称" />
           <a-table-column data-index="email" title="邮箱" />
           <a-table-column data-index="roles" title="角色" />
+          <a-table-column data-index="createTime" title="创建时间" />
+          <a-table-column data-index="updateTime" title="更新时间" />
           <a-table-column title="详情">
             <template #cell="{ record }">
               <a-button type="primary" @click="toPage(record.username)"
@@ -90,17 +92,17 @@
   import { listPoem, PoemParams, PoemResVo } from '@/api/poem';
   import { Pagination } from '@/types/global';
   import { useRouter } from 'vue-router';
-  import { listUser, UserParams } from '@/api/user';
+  import { listUser, UserParams, UserResVO } from '@/api/user';
 
   const { loading, setLoading } = useLoading(true);
   const userStore = useUserStore();
-  const poemSearchForm = reactive({
+  const searchForm = reactive({
     nickname: '',
     username: '',
     email: '',
   });
 
-  const renderData = ref<PoemResVo[]>([]);
+  const renderData = ref<UserResVO[]>([]);
   const basePagination: Pagination = {
     current: 1,
     pageSize: 20,
@@ -114,9 +116,9 @@
   ) => {
     setLoading(true);
     try {
-      params.nickname = poemSearchForm.nickname;
-      params.username = poemSearchForm.username;
-      params.email = poemSearchForm.email;
+      params.nickname = searchForm.nickname;
+      params.username = searchForm.username;
+      params.email = searchForm.email;
       const { data } = await listUser(params);
       console.log('data = ', data);
       renderData.value = data.content;

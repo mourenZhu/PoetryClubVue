@@ -18,4 +18,6 @@ export interface UserState {
   certification?: number;
   role: RoleType;
   roles: RoleType[];
+  createTime: string;
+  updateTime: string;
 }
