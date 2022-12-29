@@ -7,7 +7,7 @@ export function getSentenceList(content: string): string[] {
   strings.forEach((s) => {
     if (s.length > 1) {
       sentence = s;
-    } else {
+    } else if (s.length === 1) {
       sentenceList.push(sentence + s);
     }
   });
