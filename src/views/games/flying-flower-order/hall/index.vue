@@ -145,6 +145,7 @@
   import { useUserStore } from '@/store';
   import { useRouter } from 'vue-router';
   import { CommonWordResVO, getCommonWordTop } from '@/api/common-word';
+  import FfoForm from '@/components/ffo/ffo-form.vue';
 
   const router = useRouter();
   const userInfo = useUserStore();
