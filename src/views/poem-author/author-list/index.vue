@@ -59,9 +59,9 @@
         @page-change="onPageChange"
       >
         <template #columns>
-          <a-table-column data-index="id" title="id" width="100" />
-          <a-table-column data-index="name" title="名字" width="150" />
-          <a-table-column data-index="era" title="朝代" width="150" />
+          <a-table-column data-index="id" title="id" :width="100" />
+          <a-table-column data-index="name" title="名字" :width="150" />
+          <a-table-column data-index="era" title="朝代" :width="150" />
           <a-table-column data-index="description" title="描述">
             <template #cell="{ record }">
               {{ '\xa0\xa0' + record.description }}

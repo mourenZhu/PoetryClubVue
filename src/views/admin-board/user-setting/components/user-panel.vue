@@ -69,6 +69,8 @@
     email: '',
     avatar: '',
     roles: [],
+    createTime: '',
+    updateTime: '',
   });
 
   const file = computed(() => {
@@ -113,7 +115,7 @@
     console.log('userVo', userVo);
   };
   init();
-
+  // @ts-ignore
   const fileList = ref<FileItem[]>([file]);
   const uploadChange = (fileItemList: FileItem[], fileItem: FileItem) => {
     fileList.value = [fileItem];

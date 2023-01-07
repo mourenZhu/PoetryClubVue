@@ -82,9 +82,9 @@
         @page-change="onPageChange"
       >
         <template #columns>
-          <a-table-column data-index="id" title="id" width="100" />
-          <a-table-column data-index="title" title="诗名" width="150" />
-          <a-table-column data-index="author" title="作者" width="150">
+          <a-table-column data-index="id" title="id" :width="100" />
+          <a-table-column data-index="title" title="诗名" :width="150" />
+          <a-table-column data-index="author" title="作者" :width="150">
             <template #cell="{ record }">
               {{ record.author.name }} ({{ record.author.era }})
             </template>
@@ -101,12 +101,12 @@
               </div>
             </template>
           </a-table-column>
-          <a-table-column data-index="poemType" title="类型" width="100">
+          <a-table-column data-index="poemType" title="类型" :width="100">
             <template #cell="{ record }">
               {{ getCnPoemType(record.poemType) }}
             </template>
           </a-table-column>
-          <a-table-column data-index="tags" title="标签" width="100">
+          <a-table-column data-index="tags" title="标签" :width="100">
             <template #cell="{ record }">
               <a-space wrap>
                 <a-tag v-for="item in record.tags" :key="item" color="green">

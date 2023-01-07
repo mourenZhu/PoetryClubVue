@@ -3,6 +3,8 @@ import axios from 'axios';
 export interface UserRegisterVO {
   nickname: string;
   username: string;
+  email: string;
+  verificationCode: string;
   password: string;
 }
 

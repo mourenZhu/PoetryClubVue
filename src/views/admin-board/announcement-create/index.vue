@@ -45,6 +45,7 @@
     console.log(editorRef.value?.valueHtml);
     if (!res) {
       setLoading(true);
+      // @ts-ignore
       formData.content = editorRef.value?.valueHtml;
       console.log(formData);
       const { data } = await postAnnouncement(formData);

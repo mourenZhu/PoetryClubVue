@@ -1,5 +1,9 @@
 import { FfoGameSentenceJudgeType, FfoVoteType } from '@/types/ffo-types';
 import { FfoGameUserVoteResVo } from '@/api/flying-flower-order';
+import {
+  FfoGameSentenceDTO,
+  FfoGameVoteDTO,
+} from '@/store/modules/ffo-game/types';
 
 export function getSentenceJudgeType(
   judgeType: FfoGameSentenceJudgeType
@@ -32,7 +36,9 @@ export function getSentenceJudgeType(
 }
 
 // 获取投票几比几的表示
-export function getVtoV(userVotes: FfoGameUserVoteResVo[]): string {
+export function getVtoV(
+  userVotes: FfoGameUserVoteResVo[] | FfoGameVoteDTO[]
+): string {
   let favorNum = 0;
   let opposeNum = 0;
   let abstainNum = 0;

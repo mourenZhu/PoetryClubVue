@@ -4,6 +4,7 @@ import {
   FfoGameSentenceJudgeType,
   FfoVoteType,
 } from '@/types/ffo-types';
+import { InfoPoemVo } from '@/api/flying-flower-order';
 
 export interface FfoGameVoteDTO {
   user: UserDto;
@@ -14,6 +15,7 @@ export interface FfoGameVoteDTO {
 export interface FfoGameSentenceDTO {
   user: UserDto;
   sentence: string;
+  poem: InfoPoemVo;
 
   sentenceJudgeType: FfoGameSentenceJudgeType;
   userVotes: FfoGameVoteDTO[];

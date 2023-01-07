@@ -57,6 +57,7 @@
     const { data } = await getAnnouncement(route.params.id as string);
     formData.id = data.id;
     formData.title = data.title;
+    // @ts-ignore
     editorRef.value.valueHtml = data.content;
   }
   init();
@@ -66,6 +67,7 @@
     console.log(editorRef.value?.valueHtml);
     if (!res) {
       setLoading(true);
+      // @ts-ignore
       formData.content = editorRef.value?.valueHtml;
       console.log(formData);
       const { data } = await putAnnouncement(formData);

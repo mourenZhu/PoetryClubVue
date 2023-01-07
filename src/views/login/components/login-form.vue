@@ -128,8 +128,10 @@
       }
     }
   };
-  const setRememberPassword = (value: boolean) => {
-    loginConfig.value.rememberPassword = value;
+  const setRememberPassword = (
+    value: boolean | (string | number | boolean)[]
+  ) => {
+    loginConfig.value.rememberPassword = value as boolean;
   };
 
   const toRegister = () => {

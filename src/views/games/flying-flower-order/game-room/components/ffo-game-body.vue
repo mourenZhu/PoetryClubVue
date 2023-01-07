@@ -31,8 +31,8 @@
             <a-popover v-if="item.userVotes.length !== 0" title="投票详情">
               <a-tag color="blue">{{ getVtoV(item.userVotes) }}</a-tag>
               <template #content>
-                <p v-for="vote in item.userVotes" :key="vote.userVo.username">
-                  {{ vote.userVo.nickname }} :
+                <p v-for="vote in item.userVotes" :key="vote.user.username">
+                  {{ vote.user.nickname }} :
                   {{ getVoteType(vote.ffoVoteType) }}
                 </p>
               </template>
@@ -111,7 +111,7 @@
   // 显示给用户看，从1开始，接收到的是从0开始
   const nextKeywordIndex = ref(1);
 
-  const sentenceList = computed(() => {
+  const sentenceList = computed<FfoGameSentenceDTO[]>(() => {
     return [...ffoGameStore.ffoGame.userSentences].reverse();
   });
 

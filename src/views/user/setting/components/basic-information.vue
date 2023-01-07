@@ -6,21 +6,21 @@
     :wrapper-col-props="{ span: 16 }"
     class="form"
   >
-    <a-form-item
-      :label="$t('userSetting.basicInfo.form.label.email')"
-      :rules="[
-        {
-          required: true,
-          message: $t('userSetting.form.error.email.required'),
-        },
-      ]"
-      field="email"
-    >
-      <a-input
-        v-model="formData.email"
-        :placeholder="$t('userSetting.basicInfo.placeholder.email')"
-      />
-    </a-form-item>
+    <!--    <a-form-item-->
+    <!--      :label="$t('userSetting.basicInfo.form.label.email')"-->
+    <!--      :rules="[-->
+    <!--        {-->
+    <!--          required: true,-->
+    <!--          message: $t('userSetting.form.error.email.required'),-->
+    <!--        },-->
+    <!--      ]"-->
+    <!--      field="email"-->
+    <!--    >-->
+    <!--      <a-input-->
+    <!--        v-model="formData.email"-->
+    <!--        :placeholder="$t('userSetting.basicInfo.placeholder.email')"-->
+    <!--      />-->
+    <!--    </a-form-item>-->
     <a-form-item
       :label="$t('userSetting.basicInfo.form.label.nickname')"
       :rules="[

@@ -12,6 +12,7 @@
         >
           诗社
         </a-typography-title>
+
         <icon-menu-fold
           v-if="appStore.device === 'mobile'"
           style="font-size: 22px; cursor: pointer"
@@ -42,18 +43,18 @@
             </template>
           </a-button>
         </a-tooltip>
-        <a-dropdown trigger="click" @select="changeLocale">
-          <div ref="triggerBtn" class="trigger-btn"></div>
-          <template #content>
-            <a-doption
-              v-for="item in locales"
-              :key="item.value"
-              :value="item.value"
-            >
-              {{ item.label }}
-            </a-doption>
-          </template>
-        </a-dropdown>
+        <!--        <a-dropdown trigger="click" @select="changeLocale">-->
+        <!--          <div ref="triggerBtn" class="trigger-btn"></div>-->
+        <!--          <template #content>-->
+        <!--            <a-doption-->
+        <!--              v-for="item in locales"-->
+        <!--              :key="item.value"-->
+        <!--              :value="item.value"-->
+        <!--            >-->
+        <!--              {{ item.label }}-->
+        <!--            </a-doption>-->
+        <!--          </template>-->
+        <!--        </a-dropdown>-->
       </li>
       <li>
         <a-tooltip
@@ -186,16 +187,16 @@
         <a-button type="primary" @click="enterLogin">登录</a-button>
       </li>
       <li v-if="!isLogin()">
-        <a-button type="outline">注册</a-button>
+        <a-button type="outline" @click="enterRegister">注册</a-button>
       </li>
     </ul>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, inject } from 'vue';
+  import { computed, inject, ref } from 'vue';
   import { Message } from '@arco-design/web-vue';
-  import { useDark, useToggle, useFullscreen } from '@vueuse/core';
+  import { useDark, useFullscreen, useToggle } from '@vueuse/core';
   import { useAppStore, useUserStore } from '@/store';
   import { LOCALE_OPTIONS } from '@/locale';
   import useLocale from '@/hooks/locale';
@@ -231,6 +232,9 @@
   const enterLogin = () => {
     router.push({ name: 'login' });
   };
+  const enterRegister = () => {
+    router.push({ name: 'register' });
+  };
   const toggleTheme = useToggle(isDark);
   const handleToggleTheme = () => {
     toggleTheme();
@@ -263,7 +267,7 @@
     const res = await userStore.switchRoles();
     Message.success(res as string);
   };
-  const toggleDrawerMenu = inject('toggleDrawerMenu');
+  const toggleDrawerMenu = inject<any>('toggleDrawerMenu');
 </script>
 
 <style scoped lang="less">

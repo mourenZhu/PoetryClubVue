@@ -39,6 +39,49 @@
           :rules="[
             {
               required: true,
+              type: 'email',
+              message: '请输入正确的邮箱',
+            },
+          ]"
+          field="email"
+          label="邮箱"
+        >
+          <a-input v-model="formData.email" placeholder="请输入邮箱" />
+        </a-form-item>
+        <a-form-item
+          :rules="[
+            {
+              required: true,
+              message: '请输入验证码',
+            },
+          ]"
+          field="verificationCode"
+          label="验证码"
+        >
+          <a-input
+            v-model="formData.verificationCode"
+            placeholder="请输入验证码"
+          />
+          <a-button
+            v-show="allowSendEmail"
+            type="outline"
+            @click="getVerificationCode"
+            >获取验证码</a-button
+          >
+          <a-button v-show="!allowSendEmail" type="outline" disabled
+            >重新发送(
+            <StatisticCountdown
+              :value="emailCountdown"
+              format=" s 秒"
+              @finish="resetSendEmail"
+            />
+            )</a-button
+          >
+        </a-form-item>
+        <a-form-item
+          :rules="[
+            {
+              required: true,
               message: '必须输入密码',
             },
             {
@@ -100,11 +143,17 @@
   import { FormInstance } from '@arco-design/web-vue/es/form';
   import { register } from '@/api/register';
   import { useRouter } from 'vue-router';
+  import { StatisticCountdown } from 'ant-design-vue';
+  import applyVerificationCode from '@/api/email';
 
   const formRef = ref<FormInstance>();
+  const allowSendEmail = ref<boolean>(true);
+  const emailCountdown = ref(0);
   const formData = reactive({
     nickname: '',
     username: '',
+    email: '',
+    verificationCode: '',
     password: '',
     checkPassword: '',
   });
@@ -119,6 +168,8 @@
         const { data } = await register({
           nickname: formData.nickname,
           username: formData.username,
+          email: formData.email,
+          verificationCode: formData.verificationCode,
           password: formData.password,
         });
         if (data) {
@@ -131,6 +182,20 @@
         //
       }
     }
+  };
+
+  const resetSendEmail = () => {
+    allowSendEmail.value = true;
+  };
+  const getVerificationCode = async () => {
+    const res = await formRef.value?.validateField('email');
+    if (res) {
+      Message.error('请输入正确的邮箱');
+      return;
+    }
+    allowSendEmail.value = false;
+    emailCountdown.value = Date.now() + 60 * 1000;
+    await applyVerificationCode(formData.email);
   };
 
   const toLogin = () => {
