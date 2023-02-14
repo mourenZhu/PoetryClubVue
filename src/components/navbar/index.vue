@@ -10,7 +10,7 @@
           :style="{ margin: 0, fontSize: '18px' }"
           :heading="5"
         >
-          诗社
+          爱诗诗社
         </a-typography-title>
 
         <icon-menu-fold
