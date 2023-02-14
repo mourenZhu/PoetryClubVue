@@ -1,5 +1,10 @@
 <template>
-  <a-layout-footer class="footer">诗社 - 趣味平台</a-layout-footer>
+  <a-layout-footer class="footer">
+    <a-space>
+      <span>爱诗诗社</span>
+      <a-link href="https://beian.miit.gov.cn/">湘ICP备19026833号-1</a-link>
+    </a-space>
+  </a-layout-footer>
 </template>
 
 <script lang="ts" setup></script>
