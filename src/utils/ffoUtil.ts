@@ -23,6 +23,9 @@ export function getSentenceJudgeType(
   if (judgeType === 'KEYWORD_NOT_IN_CORRECT_POSITION') {
     return '令不在指定位置';
   }
+  if (judgeType === 'DUPLICATE_CONTENT') {
+    return '内容重复';
+  }
   if (judgeType === 'ONLY_ANCIENTS_POEM_BUT_NOT_FIND') {
     return '不是古诗';
   }
